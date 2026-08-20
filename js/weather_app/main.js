@@ -1,5 +1,6 @@
 import * as SunCalc from '../suncalc/index.js';
 import { getDeviceLocation } from './utils.js';
+import { tiles } from './tiles.js';
 
 
 const locationLat = 52.0;
@@ -21,4 +22,3 @@ const moonIllumination = SunCalc.getMoonIllumination(nowDate);
 div.innerHTML = `Moon rise: ${moonTimes.rise.toTimeString().split(' ')[0]} <br>
                 Moon set: ${moonTimes.set.toLocaleString()} <br>
                 Moon brightness: ${moonIllumination.fraction}`;
-

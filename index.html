@@ -20,22 +20,10 @@
 
 				</div>
 				<div id="info_grid">
-					<div class="grid_item wide">
-						<svg viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg">
-  <!-- Horizon -->
-  <line x1="0" y1="200" x2="1000" y2="200"
-        stroke="#666" stroke-width="2"/>
-
-  <!-- Moon altitude -->
-  <path
-    d="M0 250
-       C125 250 175 40 500 40
-       S875 250 1000 250"
-    fill="none"
-    stroke="white"
-    stroke-width="4"
-    stroke-linecap="round"/>
-</svg>
+					<div class="grid_item wide" id="moon_tile">
+						<div class="altitude_graph">
+							<svg id="graphSVG" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg"></svg>
+						</div>
 					</div>
 					<div class="grid_item"></div>
 					<div class="grid_item"></div>

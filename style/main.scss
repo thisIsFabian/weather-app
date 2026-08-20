@@ -58,6 +58,19 @@ body {
     aspect-ratio: 2/1;
 }
 
+.altitude_graph {
+    width: 100%;
+    height: calc(100% - 50px);
+}
+
+.altitude_graph .altitude_path {
+    stroke: #fff;
+}
+
+.altitude_graph .horizon_line {
+    stroke: #818181;
+}
+
 
 /*   ###   mobile style   ###   */
 @media (max-width: 480px) {
