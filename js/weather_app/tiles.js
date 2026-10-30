@@ -1,13 +1,22 @@
 import * as SunCalc from '../suncalc/index.js';
+import { location } from './main.js';
 
-class MoonTile {
+export const tiles = [];
+
+export function initTiles() {
+    tiles.forEach(t => t.init());
+}
+
+export function updateTiles() {
+    tiles.forEach(t => t.update());
+}
+
+export class MoonTile {
 
     constructor() {
         this.currentDate = new Date().getDate();
         this.tile = document.getElementById("moon_tile");
         this.graphStepSize = 5;
-
-        this.init();
     }
 
     init() {
@@ -17,7 +26,8 @@ class MoonTile {
     update() {
 
         if(new Date().getDate() !== this.currentDate) {
-            //redraw line
+            this.currentDate = new Date().getDate();
+            //redraw line + adjust moon position
         } else {
             //adjust moon position
         }
@@ -29,14 +39,12 @@ class MoonTile {
         const altitudes = [];
         for(let min = 0; min <= 1440; min += this.graphStepSize) {
             const startTime = new Date();
-            //startTime.setFullYear(2026, 2, 25);
             startTime.setHours(0, 0, 0, 0);
             const time = new Date(startTime.getTime() + (min * 60000));
-            const pos = SunCalc.getMoonPosition(time, 28.2, 99.3);
+            const pos = SunCalc.getMoonPosition(time, location.lat, location.lon);
             altitudes.push(pos.altitude);
         }
 
-        console.log(altitudes);
         return altitudes;
 
     }
@@ -95,8 +103,5 @@ class MoonTile {
         return e;
     }
 
-
 }
-
-
-export const tiles = [new MoonTile()];
+tiles.push(new MoonTile());
