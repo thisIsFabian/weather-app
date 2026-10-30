@@ -49,6 +49,58 @@ export class MoonTile {
 
     }
 
+    #drawMoon(root_item, graphWidth, graphHeight) {
+
+        const now = new Date();
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0);
+        const totalMsInDay = 24 * 60 * 60 * 1000;
+        const x = ((now - todayStart) / totalMsInDay) * graphWidth;
+
+        const altitude_now = SunCalc.getMoonPosition(now, location.lat, location.lon).altitude;
+        const y = (1 - ((altitude_now + 90) / 180)) * graphHeight;
+
+        const radius = 12.0;
+        
+        const moonIlluminaionData = SunCalc.getMoonIllumination(now);
+        const phase = ((moonIlluminaionData.phase % 1) + 1) % 1;
+
+        const k = Math.cos(2 * Math.PI * phase); // map phase to [-1, 1] (1 = new, -1 = full)
+        const rx = Math.abs(k) * radius;
+        let waxing = moonIlluminaionData.waxing;
+        if(location.lat < 0.0) { // mirror the moon for southern hemisphere
+            waxing = !waxing;
+        }
+        const crescent = k > 0;
+
+        const outerSweep = waxing ? 1 : 0;
+        const innerSweep = waxing === crescent ? 0 : 1;
+
+        const illuminationPathData = [
+            `M ${x} ${y - radius}`,
+            `A ${radius} ${radius} 0 0 ${outerSweep} ${x} ${y + radius}`,
+            `A ${rx} ${radius} 0 0 ${innerSweep} ${x} ${y - radius}`,
+            "Z"
+        ].join(" ");
+
+        // base moon:
+        root_item.appendChild(this.#svgItem("circle", {
+            cx: x,
+            cy: y,
+            r: radius,
+            fill: "black",
+            stroke: "white",
+            "stroke-width": 1.5,
+        }));
+
+        // moon illumination:
+        root_item.appendChild(this.#svgItem("path", {
+            d: illuminationPathData,
+            fill: "white"
+        }));
+        
+    }
+
     #drawGraph() {
 
         const svgElement = this.tile.getElementsByTagName("svg")[0];
@@ -69,14 +121,14 @@ export class MoonTile {
         linePoints = linePoints.join(" L ");
         const linePath = "M " + linePoints;
 
-        svgElement.innerHTML = '';
+        svgElement.innerHTML = "";
         const root = this.#svgItem('g', {});
 
         root.appendChild(this.#svgItem('path', {
             class: "altitude_path",
             d: linePath,
-            fill: 'none',
-            'stroke-width': 2.6,
+            fill: "none",
+            "stroke-width": 2.6,
             //'clip-path': 'url(#clipAbove)'
         }));
 
@@ -86,8 +138,10 @@ export class MoonTile {
             y1: 0.5 * graphHeight,
             y2: 0.5 * graphHeight,
             class: "horizon_line",
-            'stroke-width': 2.0
+            "stroke-width": 2.0
         }));
+        
+        this.#drawMoon(root, graphWidth, graphHeight);
 
         
 
