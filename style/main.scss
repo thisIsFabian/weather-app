@@ -8,7 +8,7 @@ $text-color: #d6d6d6;
 
 /*   ###   other variables   ###   */
 $base-font-size: 1em;
-$text-font-family: 'Helvetica', Arial, sans-serif;
+$text-font-family: Arial, sans-serif;
 
 $standard-border-radius: 25px;
 
@@ -98,9 +98,34 @@ header {
     aspect-ratio: 2/1;
 }
 
+#info_grid #moon_tile {
+    aspect-ratio: unset;
+}
+
+#moon_tile .stats {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px 25px;
+    margin: 22px 25px 25px 25px;
+}
+
+#moon_tile .stat_item {
+    display: flex;
+    align-items: center;
+}
+
+#moon_tile .stat_item svg {
+    margin-right: 4px;
+}
+
+#moon_tile .stats .moon_direction_arrow {
+    transform-origin: 50% 50%;
+}
+
 .altitude_graph {
     width: 100%;
-    height: calc(100% - 50px);
+    margin-top: $standard-border-radius;
 }
 
 .altitude_graph .altitude_path {
@@ -111,8 +136,20 @@ header {
     stroke: #818181;
 }
 
+.altitude_graph .grid_line {
+    stroke: #2c2c2c;
+}
+
 
 /*   ###   mobile style   ###   */
+@media (max-width: 565px) {
+
+    #moon_tile .stats {
+        justify-content: space-evenly;
+    }
+
+}
+
 @media (max-width: 480px) {
 
     #info_grid {
